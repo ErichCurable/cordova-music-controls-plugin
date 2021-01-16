@@ -124,7 +124,11 @@ public class MusicControls extends CordovaPlugin {
 		// Notification Killer
 		ServiceConnection mConnection = new ServiceConnection() {
 			public void onServiceConnected(ComponentName className, IBinder binder) {
-				((KillBinder) binder).service.startService(new Intent(activity, MusicControlsNotificationKiller.class));
+				try {
+					((KillBinder) binder).service.startService(new Intent(activity, MusicControlsNotificationKiller.class));
+				} catch(Exception ex){ // Prevents crash when startService does a - throw new IllegalStateException();
+					// not a big deal if this doesn't init in rare cases, it will leave an orphaned media player only if initialized
+				}
 			}
 			public void onServiceDisconnected(ComponentName className) {
 			}
