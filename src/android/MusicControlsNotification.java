@@ -71,8 +71,10 @@ public class MusicControlsNotification {
 		}
 		this.infos = newInfos;
 		this.createBuilder();
-		Notification noti = this.notificationBuilder.build();
-		this.notificationManager.notify(this.notificationID, noti);
+		try {
+			Notification noti = this.notificationBuilder.build();
+			this.notificationManager.notify(this.notificationID, noti);
+		} catch (Exception ex){} // java.util.ConcurrentModificationException is thrown when this is called to many times
 	}
 
 	// Toggle the play/pause button
