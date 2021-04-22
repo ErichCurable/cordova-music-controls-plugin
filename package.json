@@ -1,15 +1,49 @@
 {
-  "name": "cordova-plugin-music-controls",
-  "version": "2.1.6",
-  "description": "Music controls for Cordova apps",
+  "_from": "git+https://github.com/ErichCurable/cordova-music-controls-plugin.git",
+  "_id": "cordova-plugin-music-controls@2.1.7",
+  "_inBundle": false,
+  "_integrity": "",
+  "_location": "/cordova-plugin-music-controls",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "git",
+    "raw": "https://github.com/ErichCurable/cordova-music-controls-plugin",
+    "rawSpec": "https://github.com/ErichCurable/cordova-music-controls-plugin",
+    "saveSpec": "git+https://github.com/ErichCurable/cordova-music-controls-plugin.git",
+    "fetchSpec": "https://github.com/ErichCurable/cordova-music-controls-plugin.git",
+    "gitCommittish": null
+  },
+  "_requiredBy": [
+    "#DEV:/",
+    "#USER"
+  ],
+  "_resolved": "git+https://github.com/ErichCurable/cordova-music-controls-plugin.git#788e452ffd380d1afe012398353d89227a37d4cb",
+  "_spec": "https://github.com/ErichCurable/cordova-music-controls-plugin",
+  "_where": "/mnt/c/DEV/src/github.com/curable-health/native-clara6/native-clara",
+  "author": {
+    "name": "homerours"
+  },
+  "bugs": {
+    "url": "https://github.com/homerours/cordova-music-controls-plugin/issues"
+  },
+  "bundleDependencies": false,
   "cordova": {
     "id": "cordova-plugin-music-controls",
-    "platforms": ["android", "windows", "ios"]
+    "platforms": [
+      "android",
+      "windows",
+      "ios"
+    ]
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/homerours/cordova-music-controls-plugin.git"
-  },
+  "deprecated": false,
+  "description": "Music controls for Cordova apps",
+  "engines": [
+    {
+      "name": "cordova",
+      "version": ">=4.4.0"0
+    }
+  ],
+  "homepage": "https://github.com/homerours/cordova-music-controls-plugin#readme",
   "keywords": [
     "cordova",
     "music",
@@ -22,17 +56,11 @@
     "cordova-android",
     "cordova-windows"
   ],
-  "engines": [
-    {
-      "name": "cordova",
-      "version": ">=3.4.0"
-    }
-  ],
-  "author": "homerours",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/homerours/cordova-music-controls-plugin/issues"
+  "name": "cordova-plugin-music-controls",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/homerours/cordova-music-controls-plugin.git"
   },
-  "homepage":
-    "https://github.com/homerours/cordova-music-controls-plugin#readme"
+  "version": "2.1.7"
 }

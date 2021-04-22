@@ -9,6 +9,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.Notification;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -85,7 +86,6 @@ public class MusicControls extends CordovaPlugin {
 
 	public void destroyPlayerNotification(){
 		this.notification.destroy();
-		this.mediaSessionCompat.release();
 	}
 
 	@Override
@@ -94,9 +94,22 @@ public class MusicControls extends CordovaPlugin {
 		final Activity activity = this.cordova.getActivity();
 		final Context context=activity.getApplicationContext();
 
-    		this.cordovaActivity = activity;
+		// Notification Killer
+		final MusicControlsServiceConnection mConnection = new MusicControlsServiceConnection(activity);
 
-		this.notification = new MusicControlsNotification(activity,this.notificationID);
+    		this.cordovaActivity = activity;
+		this.notification = new MusicControlsNotification(this.cordovaActivity, this.notificationID) {
+			@Override
+			protected void onNotificationUpdated(Notification notification) {
+				mConnection.setNotification(notification, this.infos.isPlaying);
+			}
+
+			@Override
+			protected void onNotificationDestroyed() {
+				mConnection.setNotification(null, false);
+			}
+		};
+
 		this.mMessageReceiver = new MusicControlsBroadcastReceiver(this);
 		this.registerBroadcaster(mMessageReceiver);
 
@@ -121,18 +134,6 @@ public class MusicControls extends CordovaPlugin {
 			e.printStackTrace();
 		}
 
-		// Notification Killer
-		ServiceConnection mConnection = new ServiceConnection() {
-			public void onServiceConnected(ComponentName className, IBinder binder) {
-				try {
-					((KillBinder) binder).service.startService(new Intent(activity, MusicControlsNotificationKiller.class));
-				} catch(Exception ex){ // Prevents crash when startService does a - throw new IllegalStateException();
-					// not a big deal if this doesn't init in rare cases, it will leave an orphaned media player only if initialized
-				}
-			}
-			public void onServiceDisconnected(ComponentName className) {
-			}
-		};
 		Intent startServiceIntent = new Intent(activity,MusicControlsNotificationKiller.class);
 		startServiceIntent.putExtra("notificationID",this.notificationID);
 		activity.bindService(startServiceIntent, mConnection, Context.BIND_AUTO_CREATE);
@@ -198,7 +199,6 @@ public class MusicControls extends CordovaPlugin {
 		}
 		else if (action.equals("destroy")){
 			this.notification.destroy();
-			this.mediaSessionCompat.release();
 			this.mMessageReceiver.stopListening();
 			callbackContext.success("success");
 		}
@@ -217,7 +217,6 @@ public class MusicControls extends CordovaPlugin {
 	@Override
 	public void onDestroy() {
 		this.notification.destroy();
-		this.mediaSessionCompat.release();
 		this.mMessageReceiver.stopListening();
 		this.unregisterMediaButtonEvent();
 		super.onDestroy();

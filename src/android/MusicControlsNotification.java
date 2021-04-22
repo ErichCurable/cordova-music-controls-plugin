@@ -32,7 +32,7 @@ public class MusicControlsNotification {
 	private NotificationManager notificationManager;
 	private Notification.Builder notificationBuilder;
 	private int notificationID;
-	private MusicControlsInfos infos;
+	protected MusicControlsInfos infos;
 	private Bitmap bitmapCover;
 	private String CHANNEL_ID;
 
@@ -47,9 +47,9 @@ public class MusicControlsNotification {
 		// use channelid for Oreo and higher
 		if (Build.VERSION.SDK_INT >= 26) {
 			// The user-visible name of the channel.
-			CharSequence name = "Audio Playback Controls";
+			CharSequence name = "Audio Controls";
 			// The user-visible description of the channel.
-			String description = "Playback controls that show up in notifications";
+			String description = "Control Playing Audio";
 
 			int importance = NotificationManager.IMPORTANCE_LOW;
 
@@ -74,6 +74,7 @@ public class MusicControlsNotification {
 		try {
 			Notification noti = this.notificationBuilder.build();
 			this.notificationManager.notify(this.notificationID, noti);
+			this.onNotificationUpdated(noti);
 		} catch (Exception ex){} // java.util.ConcurrentModificationException is thrown when this is called to many times
 	}
 
@@ -84,6 +85,7 @@ public class MusicControlsNotification {
 		this.createBuilder();
 		Notification noti = this.notificationBuilder.build();
 		this.notificationManager.notify(this.notificationID, noti);
+		this.onNotificationUpdated(noti);
 		}
 	}
 
@@ -93,6 +95,7 @@ public class MusicControlsNotification {
 		this.createBuilder();
 		Notification noti = this.notificationBuilder.build();
 		this.notificationManager.notify(this.notificationID, noti);
+		this.onNotificationUpdated(noti);
 	}
 
 	// Get image from url
@@ -281,5 +284,9 @@ public class MusicControlsNotification {
 
 	public void destroy(){
 		this.notificationManager.cancel(this.notificationID);
+		this.onNotificationDestroyed();
 	}
+
+	protected void onNotificationUpdated(Notification notification) {}
+	protected void onNotificationDestroyed() {}
 }
